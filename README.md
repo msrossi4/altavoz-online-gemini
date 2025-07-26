@@ -14,7 +14,6 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzY2N2VlYSIvPjx0ZXh0IHg9IjI1NiIgeT0iMzAwIiBmb250LXNpemU9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPvCfj6Q8L3RleHQ+PC9zdmc+">
     
     <style>
-        /* Reset y estilos base */
         * {
             margin: 0;
             padding: 0;
@@ -31,10 +30,9 @@
             justify-content: center;
             padding: 20px;
             color: white;
-            user-select: none; /* Previene selección de texto accidental */
+            user-select: none;
         }
 
-        /* Contenedor principal */
         .container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -43,11 +41,10 @@
             text-align: center;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 450px; /* Aumentado para mejor legibilidad */
+            max-width: 450px;
             width: 100%;
         }
 
-        /* Títulos y subtítulos */
         h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
@@ -58,22 +55,21 @@
             font-size: 1.2em;
             opacity: 0.9;
             margin-bottom: 30px;
-            color: #FFE082; /* Tono amarillo para subtítulo */
+            color: #FFE082;
         }
 
-        /* Mensajes de advertencia/información */
-        .https-warning, .offline-ready, .install-section, .output-device-tip, .setup-section { 
+        .https-warning, .offline-ready, .install-section, .output-device-tip, .setup-section, .device-selection { 
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 20px;
             font-size: 0.9em;
-            text-align: left; /* Alineado a la izquierda para mejor lectura */
+            text-align: left;
         }
 
         .https-warning {
             background: rgba(255, 152, 0, 0.2);
             border: 2px solid rgba(255, 152, 0, 0.5);
-            display: none; /* Oculto por defecto, se muestra con JS */
+            display: none;
         }
 
         .offline-ready {
@@ -92,15 +88,35 @@
             border: 2px solid rgba(33, 150, 243, 0.5);
         }
         
-        /* Estilo para el mensaje de dispositivo de salida */
         .output-device-tip {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid rgba(255, 193, 7, 0.5);
             font-size: 1em;
-            display: none; /* Oculto por defecto */
+            display: none;
         }
 
-        /* Estado del amplificador */
+        .device-selection {
+            background: rgba(156, 39, 176, 0.2);
+            border: 2px solid rgba(156, 39, 176, 0.5);
+            text-align: center;
+        }
+
+        .device-select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1em;
+        }
+
+        .device-select option {
+            background: #333;
+            color: white;
+        }
+
         .status {
             font-size: 1.3em;
             margin-bottom: 30px;
@@ -109,7 +125,7 @@
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.2);
             font-weight: 500;
-            transition: background 0.3s ease, border-color 0.3s ease; /* Transición para cambios de estado */
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         .status.active {
@@ -128,7 +144,6 @@
             50% { box-shadow: 0 0 30px rgba(76, 175, 80, 0.6); }
         }
 
-        /* Controles de botones */
         .controls {
             display: flex;
             flex-direction: column;
@@ -149,7 +164,7 @@
             border: 3px solid rgba(255, 255, 255, 0.3);
             text-transform: uppercase;
             letter-spacing: 1px;
-            touch-action: manipulation; /* Mejora respuesta táctil */
+            touch-action: manipulation;
         }
 
         .btn:hover {
@@ -177,7 +192,7 @@
             background: linear-gradient(45deg, #f44336, #d32f2f);
             border-color: #f44336;
             box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
-            animation: pulseRed 1.5s ease-in-out infinite; /* Animación para botón de detener */
+            animation: pulseRed 1.5s ease-in-out infinite;
         }
 
         .btn.danger:hover {
@@ -189,7 +204,14 @@
             50% { transform: scale(1.05); }
         }
 
-        /* Controles deslizantes (sliders) */
+        .btn.secondary {
+            background: linear-gradient(45deg, #9C27B0, #7B1FA2);
+            border-color: #9C27B0;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+            font-size: 1.1em;
+            padding: 12px 25px;
+        }
+
         .volume-control, .delay-control {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
@@ -210,9 +232,9 @@
             border-radius: 5px;
             background: rgba(255, 255, 255, 0.3);
             outline: none;
-            -webkit-appearance: none; /* Para personalizar en WebKit/Chrome */
+            -webkit-appearance: none;
             margin: 10px 0;
-            cursor: grab; /* Cursor de arrastre */
+            cursor: grab;
         }
 
         .volume-slider::-webkit-slider-thumb, .delay-slider::-webkit-slider-thumb {
@@ -226,18 +248,8 @@
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
         }
 
-        .volume-slider::-moz-range-thumb, .delay-slider::-moz-range-thumb {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #FFE082, #FFC107);
-            cursor: grab;
-            border: none;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-        }
-
-        .delay-slider::-webkit-slider-thumb, .delay-slider::-moz-range-thumb {
-            background: linear-gradient(45deg, #9C27B0, #E91E63); /* Color diferente para el delay */
+        .delay-slider::-webkit-slider-thumb {
+            background: linear-gradient(45deg, #9C27B0, #E91E63);
         }
 
         .volume-display {
@@ -251,10 +263,9 @@
             margin-top: 10px;
             font-size: 1.1em;
             font-weight: bold;
-            color: #E1BEE7; /* Tono de púrpura para delay */
+            color: #E1BEE7;
         }
 
-        /* Sección de información y configuración inicial */
         .info {
             font-size: 1em;
             opacity: 0.9;
@@ -276,7 +287,7 @@
             margin-bottom: 20px;
             opacity: 0.8;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-            transition: transform 0.3s ease, opacity 0.3s ease; /* Transición para la animación */
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
         .pulse {
@@ -307,24 +318,23 @@
         }
 
         .setup-steps {
-            list-style: none; /* Quita viñetas por defecto */
+            list-style: none;
         }
 
         .setup-steps li {
             margin-bottom: 8px;
             position: relative;
-            padding-left: 25px; /* Espacio para el ícono */
+            padding-left: 25px;
         }
 
         .setup-steps li:before {
-            content: "✓"; /* Ícono de check */
+            content: "✓";
             position: absolute;
             left: 0;
             color: #4CAF50;
             font-weight: bold;
         }
 
-        /* Barra de nivel de audio */
         .audio-level {
             width: 100%;
             height: 20px;
@@ -343,7 +353,6 @@
             border-radius: 10px;
         }
 
-        /* Media queries para responsividad */
         @media (max-width: 480px) {
             .container {
                 padding: 20px;
@@ -375,32 +384,46 @@
 
         <div class="install-section" id="installSection">
             📱 <strong>Para usar siempre:</strong><br>
-            • En Chrome: Menú (<span style="font-size: 1.2em; vertical-align: middle;">&#8942;</span>) &rarr; "Instalar aplicación"<br>
-            • En Safari: Compartir (<span style="font-size: 1.2em; vertical-align: middle;">&#x21E7;</span>) &rarr; "Añadir a pantalla de inicio"<br>
+            • En Chrome: Menú → "Instalar aplicación"<br>
+            • En Safari: Compartir → "Añadir a pantalla de inicio"<br>
             • Funciona 100% offline después de instalar.
+        </div>
+
+        <div class="device-selection">
+            <strong>🎧 Dispositivos de Audio</strong><br>
+            <button class="btn secondary" id="refreshDevicesBtn" onclick="refreshDevices()">
+                🔄 Actualizar Dispositivos
+            </button>
+            <select id="microphoneSelect" class="device-select">
+                <option value="">Seleccionar micrófono...</option>
+            </select>
         </div>
         
         <div class="output-device-tip" id="outputDeviceTip">
-            🔊 **SALIDA DE AUDIO**<br>
-            El audio saldrá por el **dispositivo predeterminado de tu sistema**. Si conectás **auriculares o un micrófono USB/jack**, tu sistema puede cambiar la salida automáticamente. Asegurate de seleccionar el **parlante Bluetooth** como salida principal en la **configuración de sonido de tu dispositivo** (Android/iOS/PC) para evitar esto.
+            🔊 <strong>CONFIGURACIÓN DE SALIDA</strong><br><br>
+            <strong>PASO IMPORTANTE:</strong> Ve a la configuración de sonido de tu dispositivo y selecciona tu <strong>parlante Bluetooth</strong> como dispositivo de salida predeterminado.<br><br>
+            <strong>En Android:</strong> Configuración → Sonido → Dispositivo de salida<br>
+            <strong>En iOS:</strong> Centro de Control → Presiona el ícono de AirPlay<br>
+            <strong>En PC:</strong> Configuración → Sistema → Sonido → Elegir dispositivo de salida
         </div>
 
         <div class="microphone-icon" id="micIcon">🎤</div>
         <h1>Amplificador de Voz</h1>
-        <p class="subtitle">📚 Ideal para dar tus clases sin forzar la voz</p>
+        <p class="subtitle">📚 Ideal para dar clases sin forzar la voz</p>
         
         <div class="setup-section">
-            <div class="setup-title">🔧 Guía Rápida para el Sonido</div>
+            <div class="setup-title">🔧 Configuración Recomendada</div>
             <ol class="setup-steps">
-                <li>1. **CONECTA tu Parlante Bluetooth** (o auriculares).</li>
-                <li>2. Asegúrate que sea la **salida de audio principal** en la configuración de tu dispositivo.</li>
-                <li>3. Mantén el teléfono cerca del micrófono (20-30cm).</li>
-                <li>4. ¡Presiona **INICIAR** y ajusta el volumen gradualmente!</li>
+                <li><strong>CONECTA tu parlante Bluetooth</strong> y configúralo como salida principal en tu dispositivo</li>
+                <li><strong>USA auriculares con micrófono</strong> o micrófono externo para entrada</li>
+                <li>Selecciona el micrófono correcto en el menú de arriba</li>
+                <li>Mantén el micrófono cerca de tu boca (20-30cm)</li>
+                <li>¡Presiona <strong>INICIAR</strong> y ajusta el volumen gradualmente!</li>
             </ol>
         </div>
         
         <div class="status" id="status">
-            🎯 Todo listo. Presiona **INICIAR** para amplificar tu voz.
+            🎯 Todo listo. Presiona <strong>INICIAR</strong> para amplificar tu voz.
         </div>
 
         <div class="audio-level" id="audioLevelContainer" style="display: none;">
@@ -417,42 +440,43 @@
         </div>
 
         <div class="volume-control">
-            <label for="volumeSlider">🔊 Control de Volumen (Hasta 200%)</label>
-            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="200" value="100">
-            <div class="volume-display" id="volumeValue">100%</div>
+            <label for="volumeSlider">🔊 Control de Volumen (Hasta 300%)</label>
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="300" value="150">
+            <div class="volume-display" id="volumeValue">150%</div>
         </div>
 
         <div class="delay-control">
             <label for="delaySlider">⏱️ Retardo Anti-Feedback (ms)</label>
-            <input type="range" id="delaySlider" class="delay-slider" min="0" max="50" value="10">
-            <div class="delay-display" id="delayValue">10ms</div>
+            <input type="range" id="delaySlider" class="delay-slider" min="0" max="100" value="20">
+            <div class="delay-display" id="delayValue">20ms</div>
         </div>
 
-
         <div class="info">
-            <strong>💡 Consejos CLAVE:</strong><br><br>
-            • **VOLUMEN HASTA 200%:** Usá con cuidado, puede distorsionar o causar acoples.<br>
-            • **PARLANTE EXTERNO / AURICULARES:** Es **esencial** para evitar el feedback (acople). Si tu micrófono tiene salida de auriculares, usalos.<br>
-            • **UBICACIÓN:** Mantené el parlante externo **alejado** del micrófono (mínimo 2 metros si es posible).<br>
-            • **INICIO GRADUAL:** Empezá con volumen bajo (100%) y subí gradualmente si necesitás más potencia.<br>
-            • **HTTPS:** Esta página debe cargarse con **HTTPS** (conexión segura) para acceder al micrófono.<br>
-            • **PRUEBA PREVIA:** Siempre ajustá y probá antes de usar en una clase.<br>
-            • **OFFLINE:** Funciona sin internet una vez cargado en tu navegador.
+            <strong>💡 Consejos IMPORTANTES:</strong><br><br>
+            • <strong>VOLUMEN HASTA 300%:</strong> Máxima potencia, úsalo con cuidado<br>
+            • <strong>CONFIGURACIÓN IDEAL:</strong> Auriculares como entrada + parlante Bluetooth como salida<br>
+            • <strong>SELECCIÓN DE MICRÓFONO:</strong> Usa el menú de arriba para elegir el dispositivo correcto<br>
+            • <strong>SEPARACIÓN FÍSICA:</strong> Mantén el parlante lo más lejos posible del micrófono<br>
+            • <strong>RETARDO AUMENTADO:</strong> Hasta 100ms para evitar feedback en configuraciones complejas<br>
+            • <strong>PRUEBA SIEMPRE:</strong> Ajusta antes de usar en clase para evitar acoples<br>
+            • <strong>100% OFFLINE:</strong> Funciona sin internet una vez cargado
         </div>
     </div>
 
     <script>
-        // Variables globales para el contexto de audio
+        // Variables globales
         let audioContext;
         let microphone;
         let gainNode;
         let analyserNode;
         let delayNode;
-        let isAmplifying = false; // Estado del amplificador
-        let animationId; // Para la animación de la barra de audio
-        let mediaStream; // Para detener la pista de audio del micrófono
+        let compressorNode;
+        let isAmplifying = false;
+        let animationId;
+        let mediaStream;
+        let selectedDeviceId = null;
 
-        // Referencias a elementos del DOM
+        // Referencias DOM
         const statusEl = document.getElementById('status');
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
@@ -465,48 +489,82 @@
         const audioLevelBar = document.getElementById('audioLevelBar');
         const httpsWarning = document.getElementById('httpsWarning');
         const outputDeviceTip = document.getElementById('outputDeviceTip');
+        const microphoneSelect = document.getElementById('microphoneSelect');
 
-        // --- Verificación de entorno y PWA ---
-        // Muestra la advertencia si no se usa HTTPS (excepto en localhost)
+        // Verificar HTTPS
         if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
             httpsWarning.style.display = 'block';
-        } else {
-            httpsWarning.style.display = 'none'; // Asegura que no se muestre en localhost HTTPS
         }
 
-        // --- Configuración de Audio (generalmente sensible a cambiar) ---
-        // Se mantienen los settings originales de tu código (echoCancellation: false, etc.)
-        // Puedes experimentar con true si hay mucho ruido o eco, pero para amplificación directa a veces es mejor desactivarlos.
-        const audioConfig = {
+        // Configuración de audio optimizada
+        const getAudioConfig = () => ({
             audio: {
-                echoCancellation: false,   
-                noiseSuppression: false,   
-                autoGainControl: false,    
-                sampleRate: 44100,         
-                channelCount: 1,           
-                latency: 0.02              
+                deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
+                echoCancellation: false,
+                noiseSuppression: false,
+                autoGainControl: false,
+                sampleRate: 48000, // Aumentado para mejor calidad
+                channelCount: 1,
+                latency: 0.01
             }
-        };
+        });
 
-        // --- Event Listeners para Controles ---
-        // Control de volumen
+        // Listar dispositivos de entrada
+        async function refreshDevices() {
+            try {
+                // Solicitar permisos primero
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const audioInputs = devices.filter(device => device.kind === 'audioinput');
+                
+                microphoneSelect.innerHTML = '<option value="">Micrófono predeterminado</option>';
+                
+                audioInputs.forEach(device => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.textContent = device.label || `Micrófono ${audioInputs.indexOf(device) + 1}`;
+                    microphoneSelect.appendChild(option);
+                });
+
+                statusEl.textContent = `✅ ${audioInputs.length} dispositivos de entrada encontrados`;
+                statusEl.className = 'status active';
+                
+                setTimeout(() => {
+                    if (!isAmplifying) {
+                        statusEl.textContent = '🎯 Todo listo. Presiona INICIAR para amplificar tu voz.';
+                        statusEl.className = 'status';
+                    }
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error al listar dispositivos:', error);
+                statusEl.textContent = '❌ Error al acceder a dispositivos de audio';
+                statusEl.className = 'status error';
+            }
+        }
+
+        // Manejar selección de dispositivo
+        microphoneSelect.addEventListener('change', function() {
+            selectedDeviceId = this.value || null;
+            try {
+                localStorage.setItem('selectedMicrophone', selectedDeviceId || '');
+            } catch(e) {}
+        });
+
+        // Control de volumen mejorado
         volumeSlider.addEventListener('input', function() {
             const volume = parseInt(this.value);
             volumeValue.textContent = volume + '%';
             
-            // Guarda el volumen en localStorage para recordar el ajuste
             try {
                 localStorage.setItem('amplifierVolume', volume);
-            } catch (e) {
-                console.error("Error al guardar el volumen en localStorage:", e);
-            }
+            } catch (e) {}
             
             if (gainNode && audioContext) {
-                // Cálculo de ganancia: Aumenta exponencialmente para mayor impacto,
-                // multiplicando por un factor extra para más potencia.
-                // 100% = 1.0, 200% = 2.0. Usamos pow(x, 1.2) para que suba más rápido al final.
-                const gainFactor = Math.pow(volume / 100, 1.2); 
-                gainNode.gain.setTargetAtTime(gainFactor, audioContext.currentTime, 0.03); // Suaviza la transición
+                // Ganancia más agresiva para volúmenes altos
+                const gain = Math.pow(volume / 100, 1.1) * 1.5;
+                gainNode.gain.setTargetAtTime(gain, audioContext.currentTime, 0.02);
             }
         });
 
@@ -515,344 +573,130 @@
             const delay = parseInt(this.value);
             delayValue.textContent = delay + 'ms';
             
-            // Guarda el retardo en localStorage
             try {
                 localStorage.setItem('amplifierDelay', delay);
-            } catch (e) {
-                console.error("Error al guardar el retardo en localStorage:", e);
-            }
+            } catch (e) {}
             
             if (delayNode && audioContext) {
-                delayNode.delayTime.setTargetAtTime(delay / 1000, audioContext.currentTime, 0.01); // Convertir ms a segundos
+                delayNode.delayTime.setTargetAtTime(delay / 1000, audioContext.currentTime, 0.01);
             }
         });
 
-        // --- Visualizador de Nivel de Audio ---
+        // Visualizador de audio mejorado
         function updateAudioLevel() {
             if (!analyserNode || !isAmplifying) return;
 
             const bufferLength = analyserNode.frequencyBinCount;
             const dataArray = new Uint8Array(bufferLength);
-            analyserNode.getByteFrequencyData(dataArray); // Obtiene los datos de frecuencia
+            analyserNode.getByteFrequencyData(dataArray);
 
-            // Calcula el RMS (Root Mean Square) para un nivel de volumen más preciso
             let sum = 0;
             for (let i = 0; i < bufferLength; i++) {
                 sum += dataArray[i] * dataArray[i];
             }
             const rms = Math.sqrt(sum / bufferLength);
-            // Mapea el RMS a un porcentaje para la barra de nivel (de 0 a 128, aprox 50% max útil)
-            const percentage = Math.min((rms / 128) * 100, 100); 
+            const percentage = Math.min((rms / 100) * 100, 100);
 
             audioLevelBar.style.width = percentage + '%';
             
-            // Cambia el color de la barra y el mensaje de estado según el nivel
-            if (percentage > 90) {
-                audioLevelBar.style.background = 'linear-gradient(90deg, #FF1744, #D50000)'; // Rojo intenso
-                statusEl.textContent = '⚠️ NIVEL MUY ALTO - Reduce volumen o aleja parlante';
+            if (percentage > 95) {
+                audioLevelBar.style.background = 'linear-gradient(90deg, #FF1744, #D50000)';
+                statusEl.textContent = '🚨 NIVEL CRÍTICO - Reduce volumen inmediatamente';
                 statusEl.className = 'status error';
-            } else if (percentage > 70) {
-                audioLevelBar.style.background = 'linear-gradient(90deg, #FF9800, #F57C00)'; // Naranja
-            } else if (percentage > 30) {
-                audioLevelBar.style.background = 'linear-gradient(90deg, #4CAF50, #388E3C)'; // Verde normal
-                // Si estaba en estado de error, lo reinicia a activo (si no es un error de inicio)
-                if (statusEl.className === 'status error' && !statusEl.textContent.includes('Error:')) {
-                    statusEl.textContent = '🔴 ¡AMPLIFICANDO EN VIVO! Hablá normalmente';
+            } else if (percentage > 85) {
+                audioLevelBar.style.background = 'linear-gradient(90deg, #FF5722, #BF360C)';
+                statusEl.textContent = '⚠️ NIVEL ALTO - Cuidado con el feedback';
+                statusEl.className = 'status error';
+            } else if (percentage > 60) {
+                audioLevelBar.style.background = 'linear-gradient(90deg, #FF9800, #F57C00)';
+                if (statusEl.className === 'status error') {
+                    statusEl.textContent = '🔴 ¡AMPLIFICANDO EN VIVO! Habla normalmente';
+                    statusEl.className = 'status active';
+                }
+            } else if (percentage > 20) {
+                audioLevelBar.style.background = 'linear-gradient(90deg, #4CAF50, #388E3C)';
+                if (statusEl.className === 'status error') {
+                    statusEl.textContent = '🔴 ¡AMPLIFICANDO EN VIVO! Habla normalmente';
                     statusEl.className = 'status active';
                 }
             } else {
-                audioLevelBar.style.background = 'linear-gradient(90deg, #2196F3, #1976D2)'; // Azul (nivel bajo/silencio)
-                if (statusEl.className === 'status error' && !statusEl.textContent.includes('Error:')) {
-                    statusEl.textContent = '🔴 ¡AMPLIFICANDO EN VIVO! Hablá normalmente';
-                    statusEl.className = 'status active';
-                } else if (!isAmplifying && !statusEl.textContent.includes('Error:')) { // Si no está amplificando y no hay error
-                    statusEl.textContent = '🎯 Todo listo. Presioná INICIAR para amplificar tu voz.';
-                    statusEl.className = 'status';
-                }
+                audioLevelBar.style.background = 'linear-gradient(90deg, #2196F3, #1976D2)';
             }
 
-            animationId = requestAnimationFrame(updateAudioLevel); // Siguiente frame
+            animationId = requestAnimationFrame(updateAudioLevel);
         }
 
-        // --- Funciones de Control del Amplificador ---
-
-        // Inicia la amplificación
+        // Función de inicio mejorada
         async function startAmplifier() {
             try {
-                statusEl.textContent = '🔄 Iniciando amplificador...';
-                statusEl.className = 'status'; // Limpia clases de error o activo
-                startBtn.disabled = true; // Deshabilita el botón para evitar clics múltiples
-                startBtn.style.opacity = 0.7; // Indicador visual de deshabilitado
-                outputDeviceTip.style.display = 'block'; // Mostrar el consejo del parlante al iniciar
+                statusEl.textContent = '🔄 Iniciando amplificador avanzado...';
+                statusEl.className = 'status';
+                startBtn.disabled = true;
+                outputDeviceTip.style.display = 'block';
 
-                // 1. Verificar soporte del navegador
                 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                    throw new Error('Tu navegador no soporta la grabación de audio. Probá con Chrome, Firefox o Safari actualizados.');
+                    throw new Error('Tu navegador no soporta grabación de audio');
                 }
 
-                // 2. Verificar HTTPS
                 if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
-                    throw new Error('Para acceder al micrófono, la página debe cargarse sobre HTTPS (conexión segura). Subí el archivo a un servidor seguro o usá localhost para pruebas.');
+                    throw new Error('Necesitas HTTPS para usar el micrófono');
                 }
 
-                statusEl.textContent = '🎤 Solicitando acceso al micrófono...';
+                statusEl.textContent = '🎤 Accediendo al micrófono seleccionado...';
                 
-                // 3. Solicitar acceso al micrófono
-                let stream;
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia(audioConfig);
-                } catch (e) {
-                    console.warn('Configuración avanzada de audio falló, probando con configuración básica:', e);
-                    // Si falla, intenta con una configuración más básica
-                    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                }
-                
-                mediaStream = stream; // Guarda la referencia del stream para poder detenerlo
+                const audioConfig = getAudioConfig();
+                mediaStream = await navigator.mediaDevices.getUserMedia(audioConfig);
 
-                // 4. Crear y configurar AudioContext
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 audioContext = new AudioContext({
-                    latencyHint: 'interactive', // Prioriza baja latencia para tiempo real
-                    sampleRate: 44100 // Asegura un sample rate consistente
+                    latencyHint: 'interactive',
+                    sampleRate: 48000
                 });
 
-                // Reanudar el contexto si está suspendido (necesario en algunos navegadores/dispositivos, ej. iOS)
                 if (audioContext.state === 'suspended') {
                     await audioContext.resume();
                 }
 
-                // 5. Crear nodos del grafo de audio
+                // Crear cadena de procesamiento mejorada
                 microphone = audioContext.createMediaStreamSource(mediaStream);
-                gainNode = audioContext.createGain(); // Nodo para controlar el volumen
-                analyserNode = audioContext.createAnalyser(); // Nodo para visualizar el nivel de audio
-                delayNode = audioContext.createDelay(0.1); // Nodo de retardo (máximo 100ms)
+                
+                // Compresor para evitar distorsión
+                compressorNode = audioContext.createDynamicsCompressor();
+                compressorNode.threshold.setValueAtTime(-50, audioContext.currentTime);
+                compressorNode.knee.setValueAtTime(40, audioContext.currentTime);
+                compressorNode.ratio.setValueAtTime(12, audioContext.currentTime);
+                compressorNode.attack.setValueAtTime(0.003, audioContext.currentTime);
+                compressorNode.release.setValueAtTime(0.25, audioContext.currentTime);
 
-                // 6. Configurar analizador
-                analyserNode.fftSize = 2048; // Más detalle en la frecuencia
-                analyserNode.smoothingTimeConstant = 0.85; // Suaviza la transición de la barra de nivel
+                gainNode = audioContext.createGain();
+                analyserNode = audioContext.createAnalyser();
+                delayNode = audioContext.createDelay(0.2); // Hasta 200ms
 
-                // 7. Configurar ganancia y retardo iniciales con los valores del slider
+                // Configurar analizador
+                analyserNode.fftSize = 4096;
+                analyserNode.smoothingTimeConstant = 0.9;
+
+                // Configurar valores iniciales
                 const currentVolume = parseInt(volumeSlider.value);
-                const gainFactor = Math.pow(currentVolume / 100, 1.2); 
-                gainNode.gain.setValueAtTime(gainFactor, audioContext.currentTime);
+                const gain = Math.pow(currentVolume / 100, 1.1) * 1.5;
+                gainNode.gain.setValueAtTime(gain, audioContext.currentTime);
 
                 const currentDelay = parseInt(delaySlider.value);
-                delayNode.delayTime.setValueAtTime(currentDelay / 1000, audioContext.currentTime); // Convertir ms a segundos
+                delayNode.delayTime.setValueAtTime(currentDelay / 1000, audioContext.currentTime);
 
-                // 8. Conectar nodos: Micrófono -> Retardo -> Ganancia -> Analizador -> Salida (parlantes)
-                microphone.connect(delayNode);
+                // Conectar cadena de procesamiento:
+                // Micrófono -> Compresor -> Retardo -> Ganancia -> Analizador -> Salida
+                microphone.connect(compressorNode);
+                compressorNode.connect(delayNode);
                 delayNode.connect(gainNode);
-                gainNode.connect(analyserNode); // Conecta también al analizador para la visualización
-                gainNode.connect(audioContext.destination); // Conecta la ganancia a la salida de audio del sistema
+                gainNode.connect(analyserNode);
+                gainNode.connect(audioContext.destination);
 
-                // 9. Actualizar estado de la interfaz
                 isAmplifying = true;
-                statusEl.textContent = '🔴 ¡AMPLIFICANDO EN VIVO! Hablá normalmente.';
+                statusEl.textContent = '🔴 ¡AMPLIFICANDO CON PROCESAMIENTO AVANZADO!';
                 statusEl.className = 'status active';
                 startBtn.style.display = 'none';
                 stopBtn.style.display = 'block';
-                micIcon.className = 'microphone-icon pulse'; // Agrega clase pulse para animación
-                micIcon.textContent = '🔴'; // Cambia el ícono
-                audioLevelContainer.style.display = 'block'; // Muestra la barra de nivel
-
-                updateAudioLevel(); // Inicia la visualización del nivel de audio
-                requestWakeLock(); // Solicita el Wake Lock
-                console.log('✅ Amplificador iniciado correctamente');
-
-            } catch (error) {
-                console.error('❌ Error al iniciar amplificador:', error);
-                handleStartError(error); // Llama a la función de manejo de errores
-            } finally {
-                startBtn.disabled = false; // Vuelve a habilitar el botón "Iniciar" en caso de error
-                startBtn.style.opacity = 1;
-            }
-        }
-
-        // Maneja y muestra errores de forma amigable
-        function handleStartError(error) {
-            let errorMessage = '❌ Error: ';
-            
-            if (error.name === 'NotAllowedError') {
-                errorMessage += 'Debes permitir el acceso al micrófono. Recargá la página y aceptá el permiso cuando te lo solicite.';
-            } else if (error.name === 'NotFoundError') {
-                errorMessage += 'No se detectó un micrófono. Verificá que tu dispositivo tenga uno conectado y funcionando.';
-            } else if (error.name === 'NotSupportedError' || error.message.includes('supported')) {
-                errorMessage += 'Tu navegador no soporta las funciones de audio necesarias. Intentá usar Chrome, Firefox o Safari actualizados.';
-            } else if (error.name === 'NotReadableError') {
-                errorMessage += 'El micrófono está siendo usado por otra aplicación. Cerrá esa aplicación e intentá de nuevo.';
-            } else if (error.name === 'SecurityError' || error.message.includes('HTTPS')) {
-                errorMessage += 'Necesitas usar una conexión segura (HTTPS) para acceder al micrófono. Subí el archivo a un servidor HTTPS o usá localhost con un certificado para desarrollo.';
-            } else if (error.name === 'AbortError') {
-                errorMessage += 'La operación de acceso al micrófono fue abortada. Podría ser un problema interno del navegador o del dispositivo.';
-            }
-            else {
-                errorMessage += error.message || 'Ocurrió un error desconocido al acceder al micrófono.';
-            }
-            
-            statusEl.textContent = errorMessage;
-            statusEl.className = 'status error'; // Cambia a estado de error visual
-            startBtn.disabled = false;
-            outputDeviceTip.style.display = 'none'; // Oculta el consejo del parlante si hay un error
-        }
-
-        // Detiene la amplificación
-        function stopAmplifier() {
-            try {
-                // Detener la animación de la barra de audio
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                    animationId = null;
-                }
-
-                // Detener la pista del micrófono
-                if (mediaStream) {
-                    mediaStream.getTracks().forEach(track => {
-                        track.stop(); // Detiene cada track del stream (ej. el audio)
-                    });
-                    mediaStream = null;
-                }
-
-                // Cerrar el AudioContext si está activo
-                if (audioContext && audioContext.state !== 'closed') {
-                    audioContext.close();
-                    audioContext = null;
-                }
-
-                // Limpiar referencias a nodos
-                microphone = null;
-                gainNode = null;
-                analyserNode = null;
-                delayNode = null;
-                isAmplifying = false;
-
-                // Actualizar estado de la interfaz
-                statusEl.textContent = '✅ Amplificador detenido. Listo para reiniciar.';
-                statusEl.className = 'status'; // Vuelve al estado normal
-                startBtn.style.display = 'block';
-                startBtn.disabled = false;
-                stopBtn.style.display = 'none';
-                micIcon.className = 'microphone-icon'; // Remueve la animación
-                micIcon.textContent = '🎤'; // Vuelve al ícono original
-                audioLevelContainer.style.display = 'none'; // Oculta la barra de nivel
-                audioLevelBar.style.width = '0%'; // Reinicia la barra
-                outputDeviceTip.style.display = 'none'; // Oculta el consejo del parlante al detener
-
-                if (wakeLock) {
-                    wakeLock.release().then(() => {
-                        wakeLock = null;
-                        console.log('Wake Lock liberado.');
-                    });
-                }
-
-                console.log('✅ Amplificador detenido correctamente');
-
-            } catch (error) {
-                console.error('Error al detener el amplificador:', error);
-                statusEl.textContent = '❌ Error al detener: ' + (error.message || 'Desconocido');
-                statusEl.className = 'status error';
-            }
-        }
-
-        // --- Inicialización al cargar la página ---
-        document.addEventListener('DOMContentLoaded', function() {
-            // Cargar valores guardados de volumen y retardo
-            try {
-                const savedVolume = localStorage.getItem('amplifierVolume');
-                if (savedVolume) {
-                    volumeSlider.value = savedVolume;
-                    volumeValue.textContent = savedVolume + '%';
-                } else { // Si no hay volumen guardado, establece el valor predeterminado del slider
-                    volumeSlider.value = 100; // Valor inicial
-                    volumeValue.textContent = '100%';
-                }
-
-                const savedDelay = localStorage.getItem('amplifierDelay');
-                if (savedDelay) {
-                    delaySlider.value = savedDelay;
-                    delayValue.textContent = savedDelay + 'ms';
-                } else { // Si no hay retardo guardado
-                    delaySlider.value = 10; // Valor inicial
-                    delayValue.textContent = '10ms';
-                }
-            } catch (e) {
-                console.warn("No se pudo acceder a localStorage (posiblemente modo incógnito o navegador restrictivo):", e);
-            }
-            
-            console.log('📱 Amplificador de Voz cargado y listo');
-
-            // Intento de reanudar el AudioContext al primer toque/clic
-            // Esto es crucial para iOS y algunos navegadores que lo suspenden al inicio
-            // Se añaden event listeners a document.body para capturar el primer toque/clic en cualquier lugar.
-            document.body.addEventListener('touchstart', resumeAudioContext, { once: true });
-            document.body.addEventListener('click', resumeAudioContext, { once: true });
-        });
-
-        // Función para reanudar el AudioContext (para navegadores móviles)
-        async function resumeAudioContext() {
-            // Solo intenta reanudar si audioContext existe y está suspendido
-            if (audioContext && audioContext.state === 'suspended') {
-                try {
-                    await audioContext.resume();
-                    console.log('AudioContext reanudado con el primer toque/clic.');
-                } catch (e) {
-                    console.error('Error al reanudar AudioContext:', e);
-                }
-            }
-        }
-
-        // --- Manejo de Wake Lock (Mantener pantalla encendida) ---
-        let wakeLock = null;
-
-        async function requestWakeLock() {
-            if ('wakeLock' in navigator) {
-                try {
-                    wakeLock = await navigator.wakeLock.request('screen');
-                    console.log('✅ Wake Lock activado.');
-                } catch (err) {
-                    console.warn('⚠️ No se pudo activar Wake Lock:', err.name, err.message);
-                    // Puedes mostrar un mensaje al usuario si es importante que la pantalla no se apague
-                }
-            } else {
-                console.log('Wake Lock API no soportada por este navegador.');
-            }
-        }
-
-        // Cuando la visibilidad de la página cambia
-        document.addEventListener('visibilitychange', async () => {
-            if (wakeLock !== null && document.visibilityState === 'visible') {
-                // Si la página vuelve a ser visible y teníamos un wake lock, intentamos adquirirlo de nuevo
-                await requestWakeLock();
-            }
-        });
-
-        // Previene el cierre accidental de la página si el amplificador está activo
-        window.addEventListener('beforeunload', e => {
-            if (isAmplifying) {
-                e.preventDefault();
-                e.returnValue = '¿Seguro que querés cerrar? El amplificador está activo y se detendrá.';
-            }
-        });
-
-        // --- Service Worker (Para capacidades PWA/Offline) ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js') // Asegurate que sw.js esté en el directorio raíz o ajusta la ruta
-                    .then(registration => {
-                        console.log('Service Worker registrado con éxito:', registration);
-                        document.getElementById('offlineReady').style.display = 'block'; // Muestra el mensaje de offline
-                        document.getElementById('installSection').style.display = 'block'; // Muestra las instrucciones de instalación
-                    })
-                    .catch(error => {
-                        console.error('Error al registrar Service Worker:', error);
-                        document.getElementById('offlineReady').style.display = 'none'; // Oculta si hay error
-                        document.getElementById('installSection').style.display = 'none'; // Oculta si hay error
-                    });
-            });
-        } else {
-            document.getElementById('offlineReady').style.display = 'none'; // Oculta si no hay soporte
-            document.getElementById('installSection').style.display = 'none'; // Oculta si no hay soporte
-        }
-    </script>
-
-    </body>
-</html>
+                micIcon.className = 'microphone-icon pulse';
+                micIcon.textContent = '🔴';
+                audioLevelContainer.style.display = 'block
